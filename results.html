@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Seu Resultado - TheraLink</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container" id="resultContainer">
+    <header>
+      <h1>Seu Perfil Emocional</h1>
+      <p>Aqui está uma análise com base nas suas respostas.</p>
+    </header>
+
+    <div class="diagnosis">
+      <h2>🔍 Diagnóstico Inicial</h2>
+      <p id="resultText">Carregando...</p>
+    </div>
+
+    <div class="recommendation">
+      <h2>💡 Recomendação</h2>
+      <p id="recommendation">Carregando...</p>
+    </div>
+
+    <div class="cta">
+      <h2>📅 Agende Sua Primeira Sessão</h2>
+      <p>Fale com um terapeuta especializado e comece sua jornada de transformação.</p>
+      <a href="https://calendly.com/seu-terapeuta" target="_blank" class="btn-link">
+        Agendar Agora
+      </a>
+      <button onclick="generatePDF()" style="margin-top:15px;">
+        📄 Baixar Relatório em PDF
+      </button>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script>
+    const { jsPDF } = window.jspdf;
+
+    function generatePDF() {
+      const doc = new jsPDF();
+      const resultText = localStorage.getItem("resultText") || "";
+      const recommendation = localStorage.getItem("recommendation") || "";
+
+      doc.setFontSize(20);
+      doc.text("Relatório TheraLink", 10, 20);
+      doc.setFontSize(12);
+      doc.text(`Diagnóstico: ${resultText}`, 10, 40);
+      doc.text(`Recomendação: ${recommendation}`, 10, 60);
+      doc.text("Agende em: calendly.com/seu-terapeuta", 10, 80);
+      doc.text("TheraLink - Seu caminho começa com um link.", 10, 100);
+      doc.save("meu-relatorio-terapeutico.pdf");
+    }
+
+    document.getElementById("resultText").textContent = localStorage.getItem("resultText") || "Não disponível.";
+    document.getElementById("recommendation").textContent = localStorage.getItem("recommendation") || "Não disponível.";
+    document.getElementById("resultContainer").style.backgroundColor = localStorage.getItem("bgColor") || "#f0f7ff";
+
+    // ATUALIZE este link com o Calendly do terapeuta real
+    document.querySelector(".btn-link").href = "https://calendly.com/seu-terapeuta";
+  </script>
+</body>
+</html>
